@@ -21,7 +21,7 @@ variable "region" {
   default     = "ap-south-1"                                    #For mine
 }
 
-variable "ami_per_region" {
+variable "ami_region" {
   description = "AMI available for regions"
   type        = "map"
 
@@ -30,7 +30,7 @@ variable "ami_per_region" {
   }
 }
 
-variable "instance_type" {
+variable "inst_type" {
   description = "Type of instance as per the projects"
   type        = "map"
 }
@@ -45,4 +45,13 @@ variable "firewall" {
     "https_only"     = ["22", "443"]
     "static_website" = ["22", "80", "443"]
   }
+}
+
+variable "deploy_type" {
+  description = "Type of Deployment"
+  default     = "demo"
+}
+
+variable "keyname" {
+  description = "KeyPair Name"
 }
