@@ -1,0 +1,1 @@
+#Declare the security groups, networks and keypairs
