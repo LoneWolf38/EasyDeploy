@@ -55,3 +55,7 @@ variable "deploy_type" {
 variable "keyname" {
   description = "KeyPair Name"
 }
+
+variable "webapp_type" {
+  description = "Website Type"
+}
