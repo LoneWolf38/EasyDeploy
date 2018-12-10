@@ -1,5 +1,5 @@
 #output
 
 output "Instance Created" {
-  value = "Hello"
+  value = "${aws_instance.static.id}"
 }
