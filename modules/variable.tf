@@ -35,18 +35,6 @@ variable "inst_type" {
   type        = "map"
 }
 
-variable "firewall" {
-  description = "Security Groups as per the app"
-  type        = "map"
-
-  default = {
-    "ssh_only"       = ["22"]
-    "http_only"      = ["22", "80"]
-    "https_only"     = ["22", "443"]
-    "static_website" = ["22", "80", "443"]
-  }
-}
-
 variable "deploy_type" {
   description = "Type of Deployment"
   default     = "demo"
@@ -58,4 +46,9 @@ variable "keyname" {
 
 variable "webapp_type" {
   description = "Website Type"
+}
+
+variable "subnetid" {
+  description = "Subnet Id"
+  default     = "subnet-9f2c59f7"
 }

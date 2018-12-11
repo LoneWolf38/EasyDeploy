@@ -42,7 +42,7 @@ resource "aws_instance" "static" {
   instance_type   = "${lookup(var.inst_type, var.deploy_type)}"
   key_name        = "${var.keyname}"
   security_groups = ["${aws_security_group.http_s.id}"]
-  subnet_id       = "subnet-9f2c59f7"
+  subnet_id       = "${var.subnetid}"
 
   tags {
     Name = "${var.instance_name}"
@@ -51,16 +51,13 @@ resource "aws_instance" "static" {
   connection {
     user        = "ubuntu"
     type        = "ssh"
-    private_key = "${file("/home/drake/jarjarbinks.pem")}"
+    private_key = "${file(var.private_key)}"
     timeout     = "2m"
   }
 
   provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update",
-      "sudo apt-get -y install nginx",
-    ]
+    inline = ["sudo apt-get update", "sudo apt-get -y install nginx"]
   }
 
-  # provisioner "file" {}
+  #provisioner "file" {}
 }
