@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 resource "aws_security_group" "http_s" {
-  name = "static_website"
+  name = "normal"
 
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
@@ -35,6 +35,13 @@ resource "aws_security_group" "http_s" {
     self        = true
     description = "Remote Login"
   }
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+  }
 }
 
 resource "aws_instance" "static" {
@@ -56,7 +63,8 @@ resource "aws_instance" "static" {
   }
 
   provisioner "remote-exec" {
-    inline = ["sudo apt-get update", "sudo apt-get -y install nginx"]
+    inline     = ["sleep 1m", "sudo apt-get update", "sudo apt-get -y install nginx"]
+    on_failure = "continue"
   }
 
   #provisioner "file" {}
