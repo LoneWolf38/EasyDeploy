@@ -1,11 +1,27 @@
+variable "acc" {
+  description = "access key"
+}
+
+variable "secret" {
+  description = "secret key"
+}
+
+variable "path" {
+  description = "path to file"
+}
+
+variable "key" {
+  description = "describe your variable"
+}
+
 module "servers" {
   source        = "./modules"
-  access_key    = "AKIAJWKNY6ONSEZKXXZQ"
-  secret_key    = "qpfLlrYUgyL0z2FmYH0376RqQVdHCL9vkwbZhdaW"
+  access_key    = "${var.acc}"
+  secret_key    = "${var.secret}"
   instance_name = "static-website"
-  private_key   = "/home/drake/jarjarbinks.pem"
+  private_key   = "${var.path}"
   region        = "ap-south-1"
-  keyname       = "jarjarbinks"
+  keyname       = "${var.key}"
   webapp_type   = "static"
 
   inst_type = {
