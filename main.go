@@ -13,7 +13,7 @@ import (
 )
 
 const TF = "/usr/local/bin/terraform"
-const TF_FILES = "/home/drake/Projects/EasyDeploy"
+const TF_FILES = "terraform/"
 var HOME = os.Getenv("HOME")
 var USER = os.Getenv("USER")
 var PDIR string
@@ -154,8 +154,8 @@ func main() {
 	// 	log.Fatal(enverr)
 	// }
 	// AWS credentials input 
-	AWScreds()
-	tfplan()
+	//AWScreds()
+	tfinit()
 	//Sequence of terraform commands...
 	//1. init and get in the root module
 	//2. plan and store the plan in a terr.tfplan file
