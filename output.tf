@@ -5,3 +5,7 @@ output "Website Deployed in" {
 output "Goto The link" {
   value = "https://${module.servers.hosted_in}"
 }
+
+output "projectname" {
+  value = ""
+}

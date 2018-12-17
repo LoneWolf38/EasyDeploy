@@ -29,25 +29,3 @@ module "servers" {
     "develop" = "t2.micro"
   }
 }
-
-resource "null_resource" "static" {
-  triggers {
-    instance = "${module.servers.instance_id}"
-  }
-
-  depends_on = ["module.servers"]
-
-  provisioner "file" {
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = "${file(var.keypath)}"
-      timeout     = "2m"
-      host        = "${module.servers.public_ip}"
-    }
-
-    source      = "/home/drake/upload.html"
-    destination = "/var/www/html/index.html"
-    on_failure  = "continue"
-  }
-}
