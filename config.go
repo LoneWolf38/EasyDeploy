@@ -55,7 +55,6 @@ func AWScreds(akey, skey string) {
 func WriteConfig(key, value, config, objectName string ) {
 	newconfig.SetConfigFile(config)
 	object := objectName + "." + key
-	fmt.Println(object)
 	newconfig.Set(object,value)
 	newconfig.WriteConfig()
 }
@@ -77,7 +76,7 @@ func ValueInput(s string) string{
 //Read Function for config
 
 func ReadConfig() {
-	
+
 }
 
 
