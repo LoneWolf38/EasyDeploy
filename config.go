@@ -12,38 +12,42 @@ import (
 var oldconfig = viper.New()
 var newconfig = viper.New()
 
-
+var filepath = "./output.json"
 	
 
 //Creating a new Config file  
 
 func ConfigInit() {
-		
-
-
+		fmt.Println("Creating a New config .... ")
+		UserDetails(ValueInput("Private Key File Path"), ValueInput("Key Name"))
+		AWScreds(ValueInput("AWS access key"), ValueInput("AWS secret key"))
+		fmt.Println("Config file created output.json...")
 }
 
-//Writing Servers Details in config file servers.json
+//Writing Servers Details in config file servers.json for 1 time only
 
-func ServersDetails(ip,publicdns, runningProjects string) {
-	WriteConfig("ip",ip,"./servers.json","server")
-	WriteConfig("public_dns",publicdns,"./servers.json","server")
-	WriteConfig("Running-Projects",runningProjects,"./servers.json","server")		
+func WriteServersDetails(ip,publicdns string, rProjects []string) {
+	fmt.Println("Writing Server details in config")
+	newconfig.SetConfigFile(filepath)
+	newconfig.Set("server.ip",ip)
+	newconfig.Set("server.dns",publicdns)
+	newconfig.Set("server.Projects",rProjects[:])
+	newconfig.WriteConfig()		
 }
 
 
 //Writing User Details in the config file in user.json
 
 func UserDetails(keypath, keyname string) {
-	WriteConfig("PrivateKey",keypath,"./user.json","user")
-	WriteConfig("KeyName",keyname,"./user.json","user")
+	WriteConfig("PrivateKey",keypath,filepath,"user")
+	WriteConfig("KeyName",keyname,filepath,"user")
 }
 
 //Writing aws creds in aws.json
 
 func AWScreds(akey, skey string) {
-	WriteConfig("access_key",akey,"./aws.json","aws")
-	WriteConfig("secret_key",skey,"./aws.json","aws")
+	WriteConfig("access_key",akey,filepath,"aws")
+	WriteConfig("secret_key",skey,filepath,"aws")
 }
 
 //Write Function
@@ -68,11 +72,12 @@ func ValueInput(s string) string{
 	return strings.Trim(val,"\n")
 }
 
+
+
 //Read Function for config
 
-func ReadConfig(path string) {
-	oldconfig.SetConfigFile(path)
-
+func ReadConfig() {
+	
 }
 
 

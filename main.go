@@ -11,13 +11,12 @@ import (
 	"log"
 	//"bytes"
 )
-
-const TF = "/usr/local/bin/terraform"
-const TF_FILES = "terraform/"
 var HOME = os.Getenv("HOME")
+const TF = "/usr/local/bin/terraform"
+var TF_FILES = HOME+"/terraform/"
+
 var USER = os.Getenv("USER")
 var PDIR string
-
 // Terraform Init Command
 
 
@@ -113,33 +112,55 @@ func tfdestroy() {
 
 // Terraform output command for getting the output for a JSON Files
 
-// func tfoutput() {
-// 	tfoutput := exec.Command(TF,"output","-module=servers")
-// 	tfoutput.Dir = TF_FILES
-// 	tfoutput.Stdout = os.Stdout
-// 	tfoutput.Stdin = os.Stdin
-// 	tfoutput.Stderr = os.Stderr
+func tfoutput() {
+	tfoutput := exec.Command(TF,"output","-module=servers")
+	tfoutput.Dir = TF_FILES
+	tfoutput.Stdout = os.Stdout
+	tfoutput.Stdin = os.Stdin
+	tfoutput.Stderr = os.Stderr
+	err := tfoutput.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s",tfoutput.Stdout)
+}
 
-// }
+func ServerOutput() {
+	newconfig.SetConfigFile("./output.json")
+	pro := newconfig.GetStringSlice("server.Projects")
+	pro = append(pro, "go","static")
+	newconfig.Set("server.Projects",pro[:])
+	newconfig.WriteConfig()	
+}
+
+func FileCheck(path string) bool{
+	if _, err := os.Stat(path); !os.IsNotExist(err) {
+		return true
+	} else {
+		return false
+	}
+}
 
 
 func main() {
-	// Read the project directory  and project name and setting them as terraform env variables
-	// dir := bufio.NewReader(os.Stdin)
-	// PDIR, err := dir.ReadString('\n')
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// enverr := os.Setenv("TF_VAR_projectdir",PDIR)
-	// if enverr != nil{
-	// 	log.Fatal(enverr)
-	// }
-	// AWS credentials input 
-	AWScreds()
-	//tfinit()
-	fmt.Println("From main to config.go")
+	
+	//check if the config is present or not
+	if FileCheck("./output.json"){
+		fmt.Println("Config File Found ...")
+		ReadConfig()	
+	} else {
+		fmt.Println("No Config File Found ...")
+		ConfigInit()
+		pro := []string{"django","flask","nodejs","java"}
+		WriteServersDetails("123.3123.3123.312","www.example.com",pro[:])
+		ServerOutput()
+	}
+	fmt.Println(HOME)
+	tfinit()
+	
 	//ConfigInit()
 	// WriteConfig()
+	
 
 	//Sequence of terraform commands...
 	//1. init and get in the root module
