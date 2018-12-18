@@ -155,7 +155,11 @@ func main() {
 	// }
 	// AWS credentials input 
 	//AWScreds()
-	tfinit()
+	//tfinit()
+	fmt.Println("From main to config.go")
+	ConfigInit()
+	WriteConfig()
+
 	//Sequence of terraform commands...
 	//1. init and get in the root module
 	//2. plan and store the plan in a terr.tfplan file

@@ -4,3 +4,4 @@
 *.tfvars
 *.tfstate.backup
 *.plan
+*.json
