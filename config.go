@@ -18,32 +18,47 @@ var newconfig = viper.New()
 //Creating a new Config file  
 
 func ConfigInit() {
-	// Initializing
-	newconfig.SetConfigName("output1")
-	newconfig.AddConfigPath(".")
-	newconfig.SetConfigType("json")
-	fmt.Println("Creating fresh config...")
-	username := configInput("UserName")
-	newconfig.Set("user.name",username)
-	access_key := configInput("AWS Access Key")
-	newconfig.Set("user.access_key",access_key)
-	secret_key := configInput("AWS Secret Key")
-	newconfig.Set("user.secret_key",secret_key)
-	newconfig.WriteConfig()
+		
+
+
+}
+
+//Writing Servers Details in config file servers.json
+
+func ServersDetails(ip,publicdns, runningProjects string) {
+	WriteConfig("ip",ip,"./servers.json","server")
+	WriteConfig("public_dns",publicdns,"./servers.json","server")
+	WriteConfig("Running-Projects",runningProjects,"./servers.json","server")		
 }
 
 
-func WriteConfig() {
-	newconfig.SetConfigName("output1")
-	newconfig.AddConfigPath(".")
-	newconfig.SetConfigType("json")
-	newconfig.Set("server.ip","13.132.313.133")
-	newconfig.Set("server.public_dns","www.example.com")
-	newconfig.Set("server.ndock",123)
+//Writing User Details in the config file in user.json
+
+func UserDetails(keypath, keyname string) {
+	WriteConfig("PrivateKey",keypath,"./user.json","user")
+	WriteConfig("KeyName",keyname,"./user.json","user")
+}
+
+//Writing aws creds in aws.json
+
+func AWScreds(akey, skey string) {
+	WriteConfig("access_key",akey,"./aws.json","aws")
+	WriteConfig("secret_key",skey,"./aws.json","aws")
+}
+
+//Write Function
+
+func WriteConfig(key, value, config, objectName string ) {
+	newconfig.SetConfigFile(config)
+	object := objectName + "." + key
+	fmt.Println(object)
+	newconfig.Set(object,value)
 	newconfig.WriteConfig()
 }
 
-func configInput(s string) string{
+//Input Function
+
+func ValueInput(s string) string{
 	buffer := bufio.NewReader(os.Stdin)
 	fmt.Print(s+": ")
 	val,err := buffer.ReadString('\n')
@@ -53,21 +68,11 @@ func configInput(s string) string{
 	return strings.Trim(val,"\n")
 }
 
+//Read Function for config
 
-func ReadConfig() {
-	fmt.Println("Searching for config files")
-	oldconfig.SetConfigName("output")
-	oldconfig.AddConfigPath(".")
-	oldconfig.SetConfigType("json")
+func ReadConfig(path string) {
+	oldconfig.SetConfigFile(path)
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		fmt.Println("Config not found....")
-		ConfigInit()
-	} else {
-		keys := oldconfig.GetString("drake.access_key")
-		fmt.Println(keys)
-	}
 }
 
 

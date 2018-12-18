@@ -7,7 +7,7 @@ import (
 	"os"
 	"os/exec"
 	//"flag"
-	"bufio"
+	//"bufio"
 	"log"
 	//"bytes"
 )
@@ -17,25 +17,6 @@ const TF_FILES = "terraform/"
 var HOME = os.Getenv("HOME")
 var USER = os.Getenv("USER")
 var PDIR string
-
-
-
-// AWS Credentials entry
-
-func AWScreds() {
-	fmt.Print("Enter your AWS access_key: ")
-	key := bufio.NewReader(os.Stdin)
-	access_key, err := key.ReadString('\n')
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Setting the environment variables.....")
-	seterr := os.Setenv("TF_VAR_acc",access_key)
-	if seterr != nil {
-		log.Fatal(seterr)
-	}
-	
-}
 
 // Terraform Init Command
 
@@ -154,11 +135,11 @@ func main() {
 	// 	log.Fatal(enverr)
 	// }
 	// AWS credentials input 
-	//AWScreds()
+	AWScreds()
 	//tfinit()
 	fmt.Println("From main to config.go")
-	ConfigInit()
-	WriteConfig()
+	//ConfigInit()
+	// WriteConfig()
 
 	//Sequence of terraform commands...
 	//1. init and get in the root module
