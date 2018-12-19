@@ -75,8 +75,14 @@ func ValueInput(s string) string{
 
 //Read Function for config
 
-func ReadConfig() {
-
+func ReadtfConfig() {
+		var module []interface{}
+		viper.SetConfigFile("./terraform.tfstate")
+		viper.SetConfigType("json")
+		viper.ReadInConfig()
+		module = viper.Get("modules").([]interface{})
+		//output value
+		fmt.Print(module[0].(map[string]interface{})["outputs"].(map[string]interface{})["link"].(map[string]interface{})["value"])
 }
 
 

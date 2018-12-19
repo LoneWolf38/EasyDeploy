@@ -9,7 +9,7 @@ import (
 	//"flag"
 	//"bufio"
 	"log"
-	//"bytes"
+	//"bytes"+
 )
 var HOME = os.Getenv("HOME")
 const TF = "/usr/local/bin/terraform"
@@ -113,16 +113,7 @@ func tfdestroy() {
 // Terraform output command for getting the output for a JSON Files
 
 func tfoutput() {
-	tfoutput := exec.Command(TF,"output","-module=servers")
-	tfoutput.Dir = TF_FILES
-	tfoutput.Stdout = os.Stdout
-	tfoutput.Stdin = os.Stdin
-	tfoutput.Stderr = os.Stderr
-	err := tfoutput.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%s",tfoutput.Stdout)
+	
 }
 
 func ServerOutput() {
@@ -145,9 +136,9 @@ func FileCheck(path string) bool{
 func main() {
 	
 	//check if the config is present or not
-	if FileCheck("./output.json"){
+	if FileCheck("./terraform.tfstate"){
 		fmt.Println("Config File Found ...")
-		ReadConfig()	
+		ReadtfConfig()	
 	} else {
 		fmt.Println("No Config File Found ...")
 		ConfigInit()
@@ -155,8 +146,6 @@ func main() {
 		WriteServersDetails("123.3123.3123.312","www.example.com",pro[:])
 		ServerOutput()
 	}
-	fmt.Println(HOME)
-	tfinit()
 	
 	//ConfigInit()
 	// WriteConfig()
