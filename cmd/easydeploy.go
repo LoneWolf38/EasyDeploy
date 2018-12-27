@@ -13,7 +13,7 @@ var CPath = os.Getenv("HOME")+"/.easyconfig.json"
 var RootCmd = &cobra.Command{
 	Use: "easydeploy",
 	Short: "To show how your webapps looks in production stage",
-	Long: `EasyDeploy helps user to deploy their webapps/websites in a cloud and test whether all their services are running and also test how their app will run in a production env`,
+	Long: `EasyDeploy helps user to deploy their webapps/websites in a cloud environment`,
 	Version: "0.1",
 	Run: easydeploy,
 }
@@ -27,5 +27,5 @@ func easydeploy(cmd *cobra.Command, args []string) {
 func init() {
 	RootCmd.AddCommand(InitServiceCmd)
 	RootCmd.AddCommand(DeployAppCmd)
-	//RootCmd.AddCommand(DeleteAppCmd)
+	RootCmd.AddCommand(DeleteAppCmd)
 }

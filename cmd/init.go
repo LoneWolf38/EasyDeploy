@@ -12,13 +12,14 @@ import (
 
 var InitServiceCmd = &cobra.Command{
 	Use: "init",
-	Run: startInit,
+	Short: "First time command",
+	Run: StartInit,
 }
 
 var newConfig = viper.New()
 
 
-func startInit(cmd *cobra.Command, args []string) {
+func StartInit(cmd *cobra.Command, args []string) {
 	if _, err := os.Stat(CPath); os.IsNotExist(err) {
 		ConfigInit()
 	} else {
