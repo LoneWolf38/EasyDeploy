@@ -1,2 +1,2 @@
 # EasyDeploy
-Automatic and easy deployment of your webapps
+Now Deployment is Easier and Automatic.

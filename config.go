@@ -9,8 +9,8 @@ import (
 		"strings"
 )
 
-var oldconfig = viper.New()
-var newconfig = viper.New()
+var ReadConfig = viper.New()
+var WriteConfig = viper.New()
 
 var filepath = "./output.json"
 	
@@ -28,11 +28,11 @@ func ConfigInit() {
 
 func WriteServersDetails(ip,publicdns string, rProjects []string) {
 	fmt.Println("Writing Server details in config")
-	newconfig.SetConfigFile(filepath)
-	newconfig.Set("server.ip",ip)
-	newconfig.Set("server.dns",publicdns)
-	newconfig.Set("server.Projects",rProjects[:])
-	newconfig.WriteConfig()		
+	writeConfig.SetConfigFile(filepath)
+	writeConfig.Set("server.ip",ip)
+	writeConfig.Set("server.dns",publicdns)
+	writeConfig.Set("server.Projects",rProjects[:])
+	writeConfig.WriteConfig()		
 }
 
 
@@ -53,10 +53,10 @@ func AWScreds(akey, skey string) {
 //Write Function
 
 func WriteConfig(key, value, config, objectName string ) {
-	newconfig.SetConfigFile(config)
+	writeConfig.SetConfigFile(config)
 	object := objectName + "." + key
-	newconfig.Set(object,value)
-	newconfig.WriteConfig()
+	writeConfig.Set(object,value)
+	writeConfig.WriteConfig()
 }
 
 //Input Function
@@ -83,6 +83,7 @@ func ReadtfConfig() {
 		module = viper.Get("modules").([]interface{})
 		//output value
 		fmt.Print(module[0].(map[string]interface{})["outputs"].(map[string]interface{})["link"].(map[string]interface{})["value"])
+		fmt.Print(module[0].(map[string]interface{})["outputs"].(map[string]interface{})["ip"].(map[string]interface{})["value"])
 }
 
 

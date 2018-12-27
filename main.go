@@ -10,6 +10,7 @@ import (
 	//"bufio"
 	"log"
 	//"bytes"+
+	"github.com/LoneWolf38/EasyDeploy/cmd"
 )
 var HOME = os.Getenv("HOME")
 const TF = "/usr/local/bin/terraform"
@@ -116,13 +117,13 @@ func tfoutput() {
 	
 }
 
-func ServerOutput() {
-	newconfig.SetConfigFile("./output.json")
-	pro := newconfig.GetStringSlice("server.Projects")
-	pro = append(pro, "go","static")
-	newconfig.Set("server.Projects",pro[:])
-	newconfig.WriteConfig()	
-}
+// func ServerOutput() {
+// 	WriteConfig.SetConfigFile("./output.json")
+// 	pro := WriteConfig.GetStringSlice("server.Projects")
+// 	pro = append(pro, "go","static")
+// 	WriteConfig.Set("server.Projects",pro[:])
+// 	WriteConfig.WriteConfig()	
+// }
 
 func FileCheck(path string) bool{
 	if _, err := os.Stat(path); !os.IsNotExist(err) {
@@ -136,17 +137,18 @@ func FileCheck(path string) bool{
 func main() {
 	
 	//check if the config is present or not
-	if FileCheck("./terraform.tfstate"){
-		fmt.Println("Config File Found ...")
-		ReadtfConfig()	
-	} else {
-		fmt.Println("No Config File Found ...")
-		ConfigInit()
-		pro := []string{"django","flask","nodejs","java"}
-		WriteServersDetails("123.3123.3123.312","www.example.com",pro[:])
-		ServerOutput()
-	}
+	// if FileCheck("./terraform.tfstate"){
+	// 	fmt.Println("Config File Found ...")
+	// 	ReadtfConfig()	
+	// } else {
+	// 	fmt.Println("No Config File Found ...")
+	// 	ConfigInit()
+	// 	pro := []string{"django","flask","nodejs","java"}
+	// 	WriteServersDetails("123.3123.3123.312","www.example.com",pro[:])
+	// 	ServerOutput()
+	// }
 	
+	cmd.RootCmd.Execute()
 	//ConfigInit()
 	// WriteConfig()
 	
