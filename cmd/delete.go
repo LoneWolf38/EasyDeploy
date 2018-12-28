@@ -2,8 +2,8 @@ package cmd
 
 import (
 		"fmt"
-		"os"
-		"os/exec"
+		//"os"
+		//"os/exec"
 		"github.com/spf13/cobra"
 )
 
@@ -16,7 +16,7 @@ var DeleteAppCmd = &cobra.Command{
 
 func deleteResources(cmd *cobra.Command, args []string) {
 	fmt.Println("Deleting Servers ....")
-	if tfdelete() != nil{
+	// if tfdelete() != nil{
 
-	}
+	// }
 }
