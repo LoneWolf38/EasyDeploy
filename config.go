@@ -11,8 +11,6 @@ import (
 
 var ReadConfig = viper.New()
 var WriteConfig = viper.New()
-
-var filepath = "./output.json"
 	
 
 //Creating a new Config file  

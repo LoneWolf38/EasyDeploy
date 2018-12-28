@@ -16,14 +16,7 @@ var DeleteAppCmd = &cobra.Command{
 
 func deleteResources(cmd *cobra.Command, args []string) {
 	fmt.Println("Deleting Servers ....")
-}
+	if tfdelete() != nil{
 
-func tfdelete() error{
-	tfinit := exec.Command(TF,"destroy")
-	tfinit.Dir = TF_FILES
-	tfinit.Stdout = os.Stdout
-	tfinit.Stdin = os.Stdin
-	tfinit.Stderr = os.Stderr
-	err := tfinit.Run()
-	return err
+	}
 }
