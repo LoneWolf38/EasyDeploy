@@ -95,11 +95,11 @@ func CreateKeyPair() {
 	fmt.Println("Setting up Environment variables....")
 	os.Setenv("AWS_ACCESS_KEY_ID",readConfig.GetString("aws.access_key"))
 	os.Setenv("AWS_SECRET_ACCESS_KEY",readConfig.GetString("aws.secret_key"))
-	AwsProvider()
+	EC2keyPairCreation()
 }
 
 
-func AwsProvider() {
+func EC2keyPairCreation() {
 	fmt.Println("Creating a KeyPair for EC2 Instances...")
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 			Config: aws.Config{Region: aws.String("ap-south-1")},
