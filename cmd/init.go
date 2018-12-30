@@ -99,7 +99,7 @@ func CreateKeyPair() {
 }
 
 
-func EC2keyPairCreation() {
+func EC2keyPairCreation(region string) {
 	fmt.Println("Creating a KeyPair for EC2 Instances...")
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 			Config: aws.Config{Region: aws.String("ap-south-1")},
