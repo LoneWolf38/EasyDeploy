@@ -6,6 +6,8 @@ import (
 		"github.com/spf13/cobra"
 )
 
+var Region = "ap-south-1"
+var KeyName = "jarjarbinks"
 
 
 var CPath = os.Getenv("HOME")+"/.easyconfig.json"
@@ -25,6 +27,8 @@ func easydeploy(cmd *cobra.Command, args []string) {
 }
 
 func init() {
+	RootCmd.PersistentFlags().StringVar(&Region, "region", "r", "To set the region of the EC2 Instance")
+	RootCmd.PersistentFlags().StringVar(&KeyName, "key","","Keypair name")
 	RootCmd.AddCommand(InitServiceCmd)
 	RootCmd.AddCommand(DeployAppCmd)
 	RootCmd.AddCommand(DeleteAppCmd)
