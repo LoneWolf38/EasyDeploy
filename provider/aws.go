@@ -7,7 +7,6 @@ import (
 		"github.com/aws/aws-sdk-go/service/ec2"
 		"github.com/aws/aws-sdk-go/aws/awserr"
 		"github.com/aws/aws-sdk-go/aws/awsutil"
-		"github.com/LoneWolf38/EasyDeploy/cmd"
 )
 
 func CreateSession(region string) *session.Session {
@@ -42,15 +41,14 @@ func CreateKey(keyname string, svc *ec2.EC2) string{
 
 
 
-func CreateSecGroup(GvpcId, secName,des string) {
+func CreateSecGroup(GvpcId, secName,des string, svc *ec2.EC2) {
 	if len(GvpcId) == 0{
-		svc := CreateEc2Session(Region)
-		vpcinfo, err = svc.DescribeVpcs(nil)
-		if err!= nil {
+		vpcinfo, eerr := svc.DescribeVpcs(nil)
+		if eerr!= nil {
 			exitErrorf("Error in describing VPCs")
 		}
 
-		vpcId = aws.StringValue(vpcinfo.Vpcs[0].VpcId)	
+		vpcId := aws.StringValue(vpcinfo.Vpcs[0].VpcId)	
 		secgr, err := svc.CreateSecurityGroup(&ec2.CreateSecurityGroupInput{
 			GroupName: aws.String(secName),
 			Description: aws.String(des),
@@ -60,12 +58,12 @@ func CreateSecGroup(GvpcId, secName,des string) {
     		if aerr, ok := err.(awserr.Error); ok {
         	switch aerr.Code() {
         		case "InvalidVpcID.NotFound":
-            		exitErrorf("Unable to find VPC with ID %q.", vpcID)
+            		exitErrorf("Unable to find VPC with ID %q.", vpcId)
         		case "InvalidGroup.Duplicate":
-            		exitErrorf("Security group %q already exists.", name)
+            		exitErrorf("Security group %q already exists.", secName)
         		}
     		}
-    	exitErrorf("Unable to create security group %q, %v", name, err)
+    	exitErrorf("Unable to create security group %q, %v", secName, err)
 		}
 	}else{
 		secgr, err := svc.CreateSecurityGroup(&ec2.CreateSecurityGroupInput{
@@ -127,7 +125,10 @@ func CreateSecGroup(GvpcId, secName,des string) {
 
 }
 
-
+func exitErrorf(msg string, args ...interface{}) {
+    fmt.Fprintf(os.Stderr, msg+"\n", args...)
+    os.Exit(1)
+}
 
 //Create A IAM user
 

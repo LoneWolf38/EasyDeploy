@@ -6,7 +6,8 @@ import (
 		//"os/exec"
 		
 		"github.com/spf13/cobra"
-		"github.com/spf13/viper"
+		"github.com/LoneWolf38/EasyDeploy/provider"
+		//"github.com/spf13/viper"
 		// "github.com/aws/aws-sdk-go/aws"
 		// "github.com/aws/aws-sdk-go/aws/session"
 		// "github.com/aws/aws-sdk-go/service/ec2"
