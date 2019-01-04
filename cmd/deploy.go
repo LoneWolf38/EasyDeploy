@@ -32,13 +32,3 @@ func deploy(cmd *cobra.Command, args []string) {
 	} 
 }
 
-func EC2InstanceCreation() {
-	readConfig.SetConfigFile(CPath)
-	eadConfig.ReadInConfig()
-	fmt.Println("Setting up Environment variables....")
-	os.Setenv("AWS_ACCESS_KEY_ID",readConfig.GetString("aws.access_key"))
-	os.Setenv("AWS_SECRET_ACCESS_KEY",readConfig.GetString("aws.secret_key"))
-	
-}
-
-
