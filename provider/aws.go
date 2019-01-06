@@ -9,8 +9,6 @@ import (
 		"github.com/aws/aws-sdk-go/aws/awsutil"
 )
 
-var SECID string
-
 func CreateSession(region string) *session.Session {
 	return session.Must(session.NewSessionWithOptions(session.Options{
 				Config: aws.Config{Region: aws.String(region)},
@@ -40,7 +38,7 @@ func CreateKey(keyname string, svc *ec2.EC2) string{
 	return string(*keypair.KeyMaterial)
 }
 
-func CreateSecGroup(secName,des string, svc *ec2.EC2) {
+func CreateSecGroup(secName,des string, svc *ec2.EC2) string{
 
         fmt.Println("Creating a Security Group for Website Development")
         vpcinfo, eerr := svc.DescribeVpcs(nil)
@@ -66,7 +64,7 @@ func CreateSecGroup(secName,des string, svc *ec2.EC2) {
         exitErrorf("Unable to create security group %q, %v", secName, err)
         }
     secGrId := aws.StringValue(secgr.GroupId)
-    SECID = secGrId
+    
      _, gerr := svc.AuthorizeSecurityGroupIngress(&ec2.AuthorizeSecurityGroupIngressInput{
         GroupId: aws.String(secGrId),
         IpPermissions: []*ec2.IpPermission{
@@ -90,6 +88,7 @@ func CreateSecGroup(secName,des string, svc *ec2.EC2) {
     if gerr != nil {
         exitErrorf("Unable to set security group %q ingress, %v", secName, err)
     }
+    return secGrId
 }
 
 func exitErrorf(msg string, args ...interface{}) {

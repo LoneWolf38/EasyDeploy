@@ -35,19 +35,22 @@ func ConfigInit() {
 		fmt.Println("Creating a New config .... ")
 		UserDetails("test/path", KeyName ,ValueInput("Github"))
 		AWScreds(ValueInput("AWS access key"), ValueInput("AWS secret key"),Region)
+		ServerDetails()
 		fmt.Println("Config file created easyconfig.json...")
 }
 
-//Writing Servers Details in config file servers.json for 1 time only
+// Writing Servers Details in config file servers.json for 1 time only
 
-// func WriteServersDetails(ip,publicdns string, rProjects []string) {
-// 	fmt.Println("Writing Server details in config")
-// 	newConfig.SetConfigFile(CPath)
-// 	newConfig.Set("server.ip",ip)
-// 	newConfig.Set("server.dns",publicdns)
-// 	newConfig.Set("server.Projects",rProjects[:])
-// 	newConfig.WriteConfig()		
-// }
+func WriteServersDetails(ip,publicdns, secgroup, vpcid,instanceid string) {
+	fmt.Println("Writing Server details in config")
+	newConfig.SetConfigFile(CPath)
+	newConfig.Set("server.ip",ip)
+	newConfig.Set("server.dns",publicdns)
+	newConfig.Set("server.SecGroup",secgroup)
+	newConfig.Set("server.VpcId",vpcid)
+	newConfig.Set("server.InstanceId",instanceid)
+	newConfig.WriteConfig()		
+}
 
 
 //Writing User Details in the config file in user.json
