@@ -8,12 +8,13 @@ import (
 
 var Region = "ap-south-1"
 var KeyName = "jarjarbinks"
+var ami = "ami-0d773a3b7bb2bb1c1"
+var instancetype = "t2.micro"
 
-
-var CPath = os.Getenv("HOME")+"/.easyconfig.json"
+var CPath = os.Getenv("HOME")+"/.easyconfig"
 
 var RootCmd = &cobra.Command{
-	Use: "easydeploy",
+	Use: "EasyDeploy",
 	Short: "To show how your webapps looks in production stage",
 	Long: `EasyDeploy helps user to deploy their webapps/websites in a cloud environment`,
 	Version: "0.1",
@@ -27,8 +28,8 @@ func easydeploy(cmd *cobra.Command, args []string) {
 }
 
 func init() {
-	RootCmd.PersistentFlags().StringVar(&Region, "region", "r", "To set the region of the EC2 Instance")
-	RootCmd.PersistentFlags().StringVar(&KeyName, "key","","Keypair name")
+	RootCmd.PersistentFlags().StringVar(&Region, "region", Region, "To set the region of the EC2 Instance")
+	RootCmd.PersistentFlags().StringVar(&KeyName, "key",KeyName,"Keypair name")
 	RootCmd.AddCommand(InitServiceCmd)
 	RootCmd.AddCommand(DeployAppCmd)
 	RootCmd.AddCommand(DeleteAppCmd)

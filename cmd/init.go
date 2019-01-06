@@ -8,6 +8,7 @@ import (
 	"log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/LoneWolf38/EasyDeploy/provider"
 )
 
 var InitServiceCmd = &cobra.Command{
@@ -34,20 +35,27 @@ func StartInit(cmd *cobra.Command, args []string) {
 func ConfigInit() {
 		fmt.Println("Creating a New config .... ")
 		UserDetails("test/path", KeyName ,ValueInput("Github"))
-		AWScreds(ValueInput("AWS access key"), ValueInput("AWS secret key"),Region)
-		ServerDetails()
+		acskey := os.Getenv("AWS_ACCESS_KEY_ID")
+		seckey := os.Getenv("AWS_SECRET_ACCESS_KEY")
+		if len(acskey) == 0 && len(seckey) == 0{
+			AWScreds(acskey,seckey,Region)	
+		}else{
+			AWScreds(ValueInput("AWS access key"), ValueInput("AWS secret key"),Region)	
+		}
+		WriteServersDetails("Default faulty Ip","faluty dns","2321312","21323","2142142","asdsd")
 		fmt.Println("Config file created easyconfig.json...")
 }
 
 // Writing Servers Details in config file servers.json for 1 time only
 
-func WriteServersDetails(ip,publicdns, secgroup, vpcid,instanceid string) {
+func WriteServersDetails(ip,publicdns, secgroup, vpcid,instanceid, subnetid string) {
 	fmt.Println("Writing Server details in config")
 	newConfig.SetConfigFile(CPath)
 	newConfig.Set("server.ip",ip)
 	newConfig.Set("server.dns",publicdns)
 	newConfig.Set("server.SecGroup",secgroup)
 	newConfig.Set("server.VpcId",vpcid)
+	newConfig.Set("server.SubnetId",subnetid)
 	newConfig.Set("server.InstanceId",instanceid)
 	newConfig.WriteConfig()		
 }
@@ -105,8 +113,8 @@ func CreateKeyPair() {
 
 func EC2keyPairCreation(keyName string) {
 	fmt.Println("Creating a KeyPair for EC2 Instances...")
-	svc := CreateEc2Session(Region)
-	keypem := CreateKey(keyName,svc)
+	svc := provider.CreateEc2Session(Region)
+	keypem := provider.CreateKey(keyName,svc)
 	//keyfp := *keypair.KeyFingerrint
 	keyPath, err := CreateKeyPairFile(keyName,keypem)
 	if err != nil{

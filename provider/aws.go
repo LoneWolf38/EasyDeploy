@@ -2,11 +2,12 @@ package provider
 
 import (
 		"fmt"
+        "os"
 		"github.com/aws/aws-sdk-go/aws"
 		"github.com/aws/aws-sdk-go/aws/session"
 		"github.com/aws/aws-sdk-go/service/ec2"
 		"github.com/aws/aws-sdk-go/aws/awserr"
-		"github.com/aws/aws-sdk-go/aws/awsutil"
+		//"github.com/aws/aws-sdk-go/aws/awsutil"
 )
 
 func CreateSession(region string) *session.Session {
@@ -45,7 +46,6 @@ func CreateSecGroup(secName,des string, svc *ec2.EC2) string{
         if eerr!= nil {
             exitErrorf("Error in describing VPCs")
         }
-
         vpcId := aws.StringValue(vpcinfo.Vpcs[0].VpcId) 
         secgr, err := svc.CreateSecurityGroup(&ec2.CreateSecurityGroupInput{
             GroupName: aws.String(secName),
@@ -95,6 +95,90 @@ func exitErrorf(msg string, args ...interface{}) {
     fmt.Fprintf(os.Stderr, msg+"\n", args...)
     os.Exit(1)
 }
+
+func SubnetDetails(svc *ec2.EC2) string{
+    result, err := svc.DescribeSubnets(nil)
+    if err != nil {
+        if aerr, ok := err.(awserr.Error); ok {
+            switch aerr.Code() {
+                default:
+                    fmt.Println(aerr.Error())
+                }
+        } else {
+            fmt.Println(err.Error())
+           }
+        return "error in finding subnets"
+    }
+     subnets := aws.StringValue(result.Subnets[0].SubnetId)
+     return subnets
+}
+
+func VpcDetails(svc *ec2.EC2) string{
+    vpcinfo, eerr := svc.DescribeVpcs(nil)
+        if eerr!= nil {
+            exitErrorf("Error in describing VPCs")
+        }
+        vpcId := aws.StringValue(vpcinfo.Vpcs[0].VpcId) 
+      return vpcId  
+}
+
+func CreateOneInstance(subnetid, tags, secgroup, instancetype, ami, keyname string, svc *ec2.EC2) string{
+    runResult, err := svc.RunInstances(&ec2.RunInstancesInput{
+        ImageId:      aws.String(ami),
+        InstanceType: aws.String(instancetype),
+        MinCount:     aws.Int64(1),
+        MaxCount:     aws.Int64(1),
+        KeyName:      aws.String(keyname),
+        SecurityGroupIds: []*string{
+        aws.String(secgroup),
+        },
+        SubnetId: aws.String(subnetid),
+    })
+
+    if err != nil {
+        fmt.Println(err)
+    }
+    _, errtag := svc.CreateTags(&ec2.CreateTagsInput{
+        Resources: []*string{runResult.Instances[0].InstanceId},
+        Tags: []*ec2.Tag{
+            {
+                Key:   aws.String("Name"),
+                Value: aws.String(tags),
+            },
+        },
+    })
+    if errtag != nil {
+        fmt.Println(errtag)
+    }
+    instanceId = aws.StringValue(runResult.Instances[0].InstanceId) 
+    fmt.Println(aws.StringValue(runResult.Instances[0].InstanceId))
+
+    input := &ec2.DescribeInstanceStatusInput{
+    InstanceIds: []*string{
+        aws.String(),
+    },
+}
+
+result, err := svc.DescribeInstanceStatus(input)
+if err != nil {
+    if aerr, ok := err.(awserr.Error); ok {
+        switch aerr.Code() {
+        default:
+            fmt.Println(aerr.Error())
+        }
+    } else {
+        // Print the error, cast err to awserr.Error to get the Code and
+        // Message from an error.
+        fmt.Println(err.Error())
+    }
+    return
+}
+
+
+fmt.Println(aws.Int64Value(result.InstanceStatuses[0].InstanceState.Code))
+}
+
+
 
 //Create A IAM user
 

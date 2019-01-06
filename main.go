@@ -4,9 +4,9 @@ package main
 import (
 	//"log"
 
-	"os"
+	 ///"os"
 	"github.com/LoneWolf38/EasyDeploy/cmd"
-	"github.com/LoneWolf38/EasyDeploy/provisioner"
+	//"github.com/LoneWolf38/EasyDeploy/provisioner"
 )
 
 
@@ -15,5 +15,5 @@ import (
 func main() {
 
 	cmd.RootCmd.Execute()
-	provisioner.StaticDeploy("linkto the projects",os.Getenv("HOME"))
+	//provisioner.StaticDeploy("linkto the projects",os.Getenv("HOME"))
 }
