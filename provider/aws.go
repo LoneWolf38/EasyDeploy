@@ -3,6 +3,7 @@ package provider
 import (
 		"fmt"
         "os"
+        "time"
 		"github.com/aws/aws-sdk-go/aws"
 		"github.com/aws/aws-sdk-go/aws/session"
 		"github.com/aws/aws-sdk-go/service/ec2"
@@ -155,28 +156,32 @@ func CreateOneInstance(subnetid, tags, secgroup, instancetype, ami, keyname stri
 
     input := &ec2.DescribeInstanceStatusInput{
     InstanceIds: []*string{
-        aws.String(),
+        aws.String(instanceId),
     },
 }
 
-result, err := svc.DescribeInstanceStatus(input)
-if err != nil {
-    if aerr, ok := err.(awserr.Error); ok {
-        switch aerr.Code() {
-        default:
-            fmt.Println(aerr.Error())
+ for{
+        result, err := svc.DescribeInstanceStatus(input)
+    if err != nil {
+        if aerr, ok := err.(awserr.Error); ok {
+            switch aerr.Code() {
+            default:
+                fmt.Println(aerr.Error())
+            }
+        } else {
+         fmt.Println(err.Error())
         }
-    } else {
-        // Print the error, cast err to awserr.Error to get the Code and
-        // Message from an error.
-        fmt.Println(err.Error())
+        return "error"
+     }
+        if aws.Int64Value(result.InstanceStatuses[0].InstanceState.Code) == 16{
+            break
+         }else{
+            fmt.Println("Creating Instance....")
+            time.Sleep(1000 * time.Second)
+            continue
+          }
+        }
     }
-    return
-}
-
-
-fmt.Println(aws.Int64Value(result.InstanceStatuses[0].InstanceState.Code))
-}
 
 
 
