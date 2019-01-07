@@ -6,9 +6,9 @@ import (
 		"github.com/spf13/cobra"
 		"github.com/LoneWolf38/EasyDeploy/provider"
 		"github.com/spf13/viper"
-		 "github.com/aws/aws-sdk-go/aws"
-		 "github.com/aws/aws-sdk-go/aws/session"
-		 "github.com/aws/aws-sdk-go/service/ec2"
+		 // "github.com/aws/aws-sdk-go/aws"
+		 // "github.com/aws/aws-sdk-go/aws/session"
+		 // "github.com/aws/aws-sdk-go/service/ec2"
 )
 
 var HOME = os.Getenv("HOME")
@@ -34,12 +34,12 @@ func deploy(cmd *cobra.Command, args []string) {
 func InfoDetails() {
 	updateConfig := viper.New()
 	fmt.Println("Collecting Info...")
-	svc := CreateEc2Session(Region)
+	svc := provider.CreateEc2Session(Region)
 	vpcId := provider.VpcDetails(svc)
 	subnetId := provider.SubnetDetails(svc)
 	updateConfig.SetConfigFile(CPath)
 	updateConfig.SetConfigType("json")
 	updateConfig.Set("server.SubnetId",subnetId)
 	updateConfig.Set("server.VpcId",vpcId)
-	
+	updateConfig.WriteConfig()
 }

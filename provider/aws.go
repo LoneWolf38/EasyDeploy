@@ -3,7 +3,7 @@ package provider
 import (
 		"fmt"
         "os"
-        "time"
+        
 		"github.com/aws/aws-sdk-go/aws"
 		"github.com/aws/aws-sdk-go/aws/session"
 		"github.com/aws/aws-sdk-go/service/ec2"
@@ -151,7 +151,7 @@ func CreateOneInstance(subnetid, tags, secgroup, instancetype, ami, keyname stri
     if errtag != nil {
         fmt.Println(errtag)
     }
-    instanceId = aws.StringValue(runResult.Instances[0].InstanceId) 
+    instanceId := aws.StringValue(runResult.Instances[0].InstanceId) 
     fmt.Println(aws.StringValue(runResult.Instances[0].InstanceId))
 
     fmt.Println("Waiting for the instance to be created....")
@@ -163,6 +163,7 @@ func CreateOneInstance(subnetid, tags, secgroup, instancetype, ami, keyname stri
    if reerr != nil{
     os.Exit(1)
    }
+   return instanceId
 }
 
 
