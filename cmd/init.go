@@ -46,7 +46,7 @@ func ConfigInit() {
 		fmt.Println("Config file created easyconfig.json...")
 }
 
-// Writing Servers Details in config file servers.json for 1 time only
+// Writing Servers Details in config file 
 
 func WriteServersDetails(ip,publicdns, secgroup, vpcid,instanceid, subnetid string) {
 	fmt.Println("Writing Server details in config")
@@ -59,7 +59,6 @@ func WriteServersDetails(ip,publicdns, secgroup, vpcid,instanceid, subnetid stri
 	newConfig.Set("server.InstanceId",instanceid)
 	newConfig.WriteConfig()		
 }
-
 
 //Writing User Details in the config file in user.json
 

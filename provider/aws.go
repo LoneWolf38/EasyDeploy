@@ -154,44 +154,20 @@ func CreateOneInstance(subnetid, tags, secgroup, instancetype, ami, keyname stri
     instanceId = aws.StringValue(runResult.Instances[0].InstanceId) 
     fmt.Println(aws.StringValue(runResult.Instances[0].InstanceId))
 
-    input := &ec2.DescribeInstanceStatusInput{
+    fmt.Println("Waiting for the instance to be created....")
+    reerr := svc.WaitUntilInstanceRunning(&ec2.DescribeInstancesInput{
     InstanceIds: []*string{
         aws.String(instanceId),
     },
+    })
+   if reerr != nil{
+    os.Exit(1)
+   }
 }
-
- for{
-        result, err := svc.DescribeInstanceStatus(input)
-    if err != nil {
-        if aerr, ok := err.(awserr.Error); ok {
-            switch aerr.Code() {
-            default:
-                fmt.Println(aerr.Error())
-            }
-        } else {
-         fmt.Println(err.Error())
-        }
-        return "error"
-     }
-        if aws.Int64Value(result.InstanceStatuses[0].InstanceState.Code) == 16{
-            break
-         }else{
-            fmt.Println("Creating Instance....")
-            time.Sleep(1000 * time.Second)
-            continue
-          }
-        }
-    }
 
 
 
 //Create A IAM user
-
-//Create A EC2 instance
-
-//Create A security group
-
-
 
 
 //Create A VPC
