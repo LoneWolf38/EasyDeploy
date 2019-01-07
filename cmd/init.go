@@ -63,9 +63,9 @@ func WriteServersDetails(ip,publicdns, secgroup, vpcid,instanceid, subnetid stri
 //Writing User Details in the config file in user.json
 
 func UserDetails(keypath, keyname, github string) {
-	WriteConfigFiles("KeyPath",keypath,CPath,"user")
-	WriteConfigFiles("KeyName",keyname,CPath,"user")
-	WriteConfigFiles("Github",github,CPath,"user")
+	WriteConfigFiles("keypath",keypath,CPath,"user")
+	WriteConfigFiles("keyname",keyname,CPath,"user")
+	WriteConfigFiles("github",github,CPath,"user")
 }
 
 //Writing aws creds in aws.json

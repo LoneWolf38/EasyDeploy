@@ -8,7 +8,7 @@ import (
 		"github.com/aws/aws-sdk-go/aws/session"
 		"github.com/aws/aws-sdk-go/service/ec2"
 		"github.com/aws/aws-sdk-go/aws/awserr"
-		//"github.com/aws/aws-sdk-go/aws/awsutil"
+		
 )
 
 func CreateSession(region string) *session.Session {
@@ -84,6 +84,15 @@ func CreateSecGroup(secName,des string, svc *ec2.EC2) string{
                     (&ec2.IpRange{}).
                         SetCidrIp("0.0.0.0/0"),
                 }),
+            (&ec2.IpPermission{}).
+                SetIpProtocol("tcp").
+                SetFromPort(443).
+                SetToPort(443).
+                SetIpRanges([]*ec2.IpRange{
+                    (&ec2.IpRange{}).
+                        SetCidrIp("0.0.0.0/0"),
+                }),
+
         },
     })
     if gerr != nil {

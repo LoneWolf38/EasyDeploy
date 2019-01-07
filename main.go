@@ -6,7 +6,7 @@ import (
 
 	 ///"os"
 	"github.com/LoneWolf38/EasyDeploy/cmd"
-	//"github.com/LoneWolf38/EasyDeploy/provisioner"
+	"github.com/LoneWolf38/EasyDeploy/provisioner"
 )
 
 
