@@ -48,3 +48,6 @@ $ ./EasyDeploy deploy [--repo]
 - Support of GitLab and other private repositories
 - Available for all Operating Systems
 - Single executable with no dependencies
+- Colored output for interactive user experience
+- Automatic updates of the repo in the server
+- Building of software(other than webapps) support to be added
