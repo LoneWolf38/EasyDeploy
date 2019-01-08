@@ -1,7 +1,4 @@
 language: go
 go: master
-branches:
-  only:
-    - dev
 script: go build main.go
 
