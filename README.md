@@ -12,7 +12,7 @@ A command line tool which helps you to deploy your website/webapps** in AWS serv
 
 ## Install
 
-- No extra dependencies required to be installed
+- No extra dependencies required to be installed, Only require an AWS account with Accesskey and SecretKey
 - Just download the binary from Releases and copy the binary to /usr/local/bin
 
 ```
