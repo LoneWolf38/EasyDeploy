@@ -31,6 +31,8 @@ $ ./EasyDeploy
 ```
 $ ./EasyDeploy init [--region][--key]
 
+$ ./EasyDeploy deploy [--repo]
+
 ```
 
 ## Commands
