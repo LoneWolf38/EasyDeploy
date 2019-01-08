@@ -11,7 +11,7 @@ A command line tool which helps you to deploy your website/webapps in AWS server
 ## Install
 
 - No extra dependencies required to be installed
-- Just download the binary from Releases and copy the binary to /usr/bin
+- Just download the binary from Releases and copy the binary to /usr/local/bin
 
 ```
 $ wget https://github.com/LoneWolf38/EasyDeploy/releases/download/1.0/EasyDeploy-v1.0-PreRelease.zip
@@ -19,7 +19,9 @@ $ unzip EasyDeploy-v1.0-PreRelease.zip
 $ sudo cp EasyDeploy /usr/local/bin/.
 $ EasyDeploy --version
 ```
-## Dependencies 
+## Build From Source
+
+#### Dependencies 
 - Golang 
 - AWS account (Access key and Secret Key needed)
 - Viper(github.com/spf13/viper)
@@ -29,8 +31,6 @@ $ EasyDeploy --version
 ```
 $ export GOPATH=/home/$USER/go
 ```
-
-## Build From Source
 
 ```
 $ git clone https://github.com/LoneWolf38/EasyDeploy.git /home/$USER/go/github.com/LoneWolf38/.
