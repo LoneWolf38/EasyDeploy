@@ -12,7 +12,7 @@ var ami = "ami-0d773a3b7bb2bb1c1"
 var instancetype = "t2.micro"
 var secName = "static-website"
 var secDes = "A security group for allowing ports 80 and 22 and 443"
-var repo = "lonewolf38.github.io"
+var repo = ""
 
 var CPath = os.Getenv("HOME")+"/.easyconfig"
 

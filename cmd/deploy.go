@@ -6,13 +6,16 @@ import (
 		"github.com/spf13/cobra"
 		"github.com/LoneWolf38/EasyDeploy/provider"
 		"github.com/spf13/viper"
-		  // "github.com/aws/aws-sdk-go/aws"
+		   "github.com/aws/aws-sdk-go/aws"
 		  // "github.com/aws/aws-sdk-go/aws/session"
-		  // "github.com/aws/aws-sdk-go/service/ec2"
+		   "github.com/aws/aws-sdk-go/service/ec2"
 		"github.com/LoneWolf38/EasyDeploy/provisioner"
+		"github.com/aws/aws-sdk-go/aws/awserr"
 )
 
 var HOME = os.Getenv("HOME")
+
+var URL string
 
 
 var DeployAppCmd = &cobra.Command{
@@ -35,6 +38,7 @@ func deploy(cmd *cobra.Command, args []string) {
 func init() {
 	DeployAppCmd.PersistentFlags().StringVar(&secName,"firewall",secName,"Name of the security Group")
 	DeployAppCmd.PersistentFlags().StringVar(&repo, "repo", repo, "Name of the project")
+	DeployAppCmd.PersistentFlags().StringVar(&URL, "url","", "Github URL of the project")
 }
 
 
@@ -59,36 +63,84 @@ func ExecuteDeploy() {
 	updateConfig.Set("server.InstanceId",instanceId)
 	updateConfig.WriteConfig()
 
+	publicIp := GetInstanceIP(instanceId,svc)
+	PublicDnsName := GetInstanceDNS(instanceId,svc)
+	updateConfig.Set("server.ip",publicIp)
+	updateConfig.Set("server.dns",PublicDnsName)
 
+	updateConfig.WriteConfig()
+
+	fmt.Println("Installing Necessary Software...")
 
 	user := updateConfig.GetString("user.github")
+	if len(repo)==0{
+		provisioner.StaticDeploy(URL,CPath)
+	}else {
 	githubUrl := "https://github.com/"+user+"/"+repo+".git"
 	provisioner.StaticDeploy(githubUrl,CPath)
+	}
+
+	fmt.Println("Site is Deployed at: "+publicIp)
+	fmt.Println("Public DNS: "+PublicDnsName)
+	
 }	
 
-// func GetInstanceIP(svc *ec2.EC2) {
-// 	input := &ec2.DescribeInstancesInput{
-//     Filters: []*ec2.Filter{
-//         {
-//             Name: aws.String("ip-address"),
-//             Values: []*string{
-//                 aws.String("t2.micro"),
-//             },
-//         },
-//     },
-// }
-// }
+func GetInstanceIP(instanceID string, svc *ec2.EC2) string{
+	var ip string
+    input := &ec2.DescribeInstancesInput{
+        InstanceIds: []*string{
+        aws.String(instanceID),
+    },
+    }
+    result, err := svc.DescribeInstances(input)
+    if err != nil {
+     if aerr, ok := err.(awserr.Error); ok {
+          switch aerr.Code() {
+          default:
+             fmt.Println(aerr.Error())
+         }
+      } else {
+        // Print the error, cast err to awserr.Error to get the Code and
+        // Message from an error.
+        fmt.Println(err.Error())
+    }
+    return "error"
+}
 
-// func GetInstanceDNS(svc *ec2.EC2) {
-// 	input := &ec2.DescribeInstancesInput{
-//     Filters: []*ec2.Filter{
-//         {
-//             Name: aws.String("dns-name"),
-//             Values: []*string{
-//                 aws.String("t2.micro"),
-//             },
-//         },
-//     },
-// }
-// }
+    for _, reservation := range result.Reservations {
+        for _, instance := range reservation.Instances {
+            ip = aws.StringValue(instance.PublicIpAddress)
+        }
+    }
+    return ip
+}
 
+func GetInstanceDNS(instanceID string, svc *ec2.EC2) string{
+	var dns string
+    input := &ec2.DescribeInstancesInput{
+        InstanceIds: []*string{
+        aws.String(instanceID),
+    },
+    }
+    result, err := svc.DescribeInstances(input)
+    if err != nil {
+     if aerr, ok := err.(awserr.Error); ok {
+          switch aerr.Code() {
+          default:
+             fmt.Println(aerr.Error())
+         }
+      } else {
+        // Print the error, cast err to awserr.Error to get the Code and
+        // Message from an error.
+        fmt.Println(err.Error())
+    }
+    return "error"
+}
+
+    for _, reservation := range result.Reservations {
+        for _, instance := range reservation.Instances {
+            dns = aws.StringValue(instance.PublicDnsName)
+        }
+    }
+    return dns
+}
