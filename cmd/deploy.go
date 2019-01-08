@@ -5,10 +5,8 @@ import (
 		"os"
 		"github.com/spf13/cobra"
 		"github.com/LoneWolf38/EasyDeploy/provider"
-		"github.com/spf13/viper"
-		   "github.com/aws/aws-sdk-go/aws"
-		  // "github.com/aws/aws-sdk-go/aws/session"
-		   "github.com/aws/aws-sdk-go/service/ec2"
+		"github.com/aws/aws-sdk-go/aws"
+		"github.com/aws/aws-sdk-go/service/ec2"
 		"github.com/LoneWolf38/EasyDeploy/provisioner"
 		"github.com/aws/aws-sdk-go/aws/awserr"
 )
@@ -31,7 +29,7 @@ func deploy(cmd *cobra.Command, args []string) {
 		ConfigInit()
 		os.Exit(1)	
 	}else{
-
+		ExecuteDeploy()
 	} 
 }
 
@@ -44,35 +42,40 @@ func init() {
 
 
 func ExecuteDeploy() {
-	updateConfig := viper.New()
+	readConfig.SetConfigFile(CPath)
+	readConfig.ReadInConfig()
+	fmt.Println("Setting up Environment variables....")
+	os.Setenv("AWS_ACCESS_KEY_ID",readConfig.GetString("aws.access_key"))
+	os.Setenv("AWS_SECRET_ACCESS_KEY",readConfig.GetString("aws.secret_key"))
+	fmt.Println(readConfig.GetString("aws.access_key"))
+	fmt.Println(readConfig.GetString("aws.secret_key"))
 	fmt.Println("Collecting Info...")
 	svc := provider.CreateEc2Session(Region)
 	vpcId := provider.VpcDetails(svc)
 	subnetId := provider.SubnetDetails(svc)
-	updateConfig.SetConfigFile(CPath)
-	updateConfig.SetConfigType("json")
-	updateConfig.Set("server.SubnetId",subnetId)
-	updateConfig.Set("server.VpcId",vpcId)
-	keyName := updateConfig.GetString("user.keyname")
+	readConfig.Set("server.subnetid",subnetId)
+	readConfig.Set("server.vpcid",vpcId)
+	keyName := readConfig.GetString("user.keyname")
 	fmt.Println("Creating a Security Group....")
 	secGroup := provider.CreateSecGroup(secName,secDes,svc)
-	updateConfig.Set("server.secGroup",secGroup)
+	readConfig.Set("server.secgroup",secGroup)
 	fmt.Println("Creating a EC2 Instance...")
+	//fmt.Println(subnetId+"\n"+secName+"\n"+secGroup+"\n"+instancetype+"\n"+ami+"\n"+keyName)
 	instanceId := provider.CreateOneInstance(subnetId,secName,secGroup,instancetype,ami,keyName,svc)
 	fmt.Println("Server Created")
-	updateConfig.Set("server.InstanceId",instanceId)
-	updateConfig.WriteConfig()
+	readConfig.Set("server.InstanceId",instanceId)
+	readConfig.WriteConfig()
 
 	publicIp := GetInstanceIP(instanceId,svc)
 	PublicDnsName := GetInstanceDNS(instanceId,svc)
-	updateConfig.Set("server.ip",publicIp)
-	updateConfig.Set("server.dns",PublicDnsName)
+	readConfig.Set("server.ip",publicIp)
+	readConfig.Set("server.dns",PublicDnsName)
 
-	updateConfig.WriteConfig()
+	readConfig.WriteConfig()
 
 	fmt.Println("Installing Necessary Software...")
 
-	user := updateConfig.GetString("user.github")
+	user := readConfig.GetString("user.github")
 	if len(repo)==0{
 		provisioner.StaticDeploy(URL,CPath)
 	}else {
@@ -100,8 +103,6 @@ func GetInstanceIP(instanceID string, svc *ec2.EC2) string{
              fmt.Println(aerr.Error())
          }
       } else {
-        // Print the error, cast err to awserr.Error to get the Code and
-        // Message from an error.
         fmt.Println(err.Error())
     }
     return "error"
@@ -130,8 +131,6 @@ func GetInstanceDNS(instanceID string, svc *ec2.EC2) string{
              fmt.Println(aerr.Error())
          }
       } else {
-        // Print the error, cast err to awserr.Error to get the Code and
-        // Message from an error.
         fmt.Println(err.Error())
     }
     return "error"

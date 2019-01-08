@@ -3,7 +3,6 @@ package provider
 import (
 		"fmt"
         "os"
-        
 		"github.com/aws/aws-sdk-go/aws"
 		"github.com/aws/aws-sdk-go/aws/session"
 		"github.com/aws/aws-sdk-go/service/ec2"
@@ -18,6 +17,8 @@ func CreateSession(region string) *session.Session {
 }
 
 func CreateEc2Session(region string) *ec2.EC2 {
+    fmt.Println(os.Getenv("AWS_ACCESS_KEY_ID"))
+    fmt.Println(os.Getenv("AWS_SECRET_ACCESS_KEY"))
 	return ec2.New(session.Must(session.NewSessionWithOptions(session.Options{
 				Config: aws.Config{Region: aws.String(region)},
 		})))

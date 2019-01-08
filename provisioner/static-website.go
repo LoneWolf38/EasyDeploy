@@ -26,13 +26,14 @@ func StaticDeploy(url, CPath string) {
 	viper.ReadInConfig()
 	server_ip := viper.GetString("server.ip")
 	keyFile := viper.GetString("user.keypath")
+	fmt.Println(keyFile+""+server_ip)
 	svr := ServerConnInfo{
 		Server: server_ip,
 		Port: PORT,
 		User: USER,
 		Key: keyFile,
 	}
-	github := gitCloneCommand+url
+	github := "sudo "+gitCloneCommand+url+" "+servDir
  	startCommandList = append(startCommandList,github)
 
  	fmt.Println("Installing necessary softwares....")

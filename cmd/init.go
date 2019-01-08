@@ -35,15 +35,10 @@ func StartInit(cmd *cobra.Command, args []string) {
 func ConfigInit() {
 		fmt.Println("Creating a New config .... ")
 		UserDetails("test/path", KeyName ,ValueInput("Github"))
-		acskey := os.Getenv("AWS_ACCESS_KEY_ID")
-		seckey := os.Getenv("AWS_SECRET_ACCESS_KEY")
-		if len(acskey) == 0 && len(seckey) == 0{
-			AWScreds(acskey,seckey,Region)	
-		}else{
-			AWScreds(ValueInput("AWS access key"), ValueInput("AWS secret key"),Region)	
-		}
+		AWScreds(ValueInput("AWS access key"), ValueInput("AWS secret key"),Region)	
+
 		WriteServersDetails("Default faulty Ip","faluty dns","2321312","21323","2142142","asdsd")
-		fmt.Println("Config file created easyconfig.json...")
+		fmt.Println("Config file created .easyconfig...")
 }
 
 // Writing Servers Details in config file 
@@ -101,11 +96,12 @@ func ValueInput(s string) string{
 
 func CreateKeyPair() {
 	readConfig.SetConfigFile(CPath)
-	readConfig.SetConfigType("json")
 	readConfig.ReadInConfig()
 	fmt.Println("Setting up Environment variables....")
 	os.Setenv("AWS_ACCESS_KEY_ID",readConfig.GetString("aws.access_key"))
 	os.Setenv("AWS_SECRET_ACCESS_KEY",readConfig.GetString("aws.secret_key"))
+	fmt.Println(readConfig.GetString("aws.access_key"))
+	fmt.Println(readConfig.GetString("aws.secret_key"))
 	EC2keyPairCreation(KeyName)
 }
 
