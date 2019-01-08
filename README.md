@@ -6,7 +6,9 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
 
 
-A command line tool which helps you to deploy your website/webapps in AWS servers.
+A command line tool which helps you to deploy your website/webapps** in AWS servers.
+
+** Only simple websites can be deployed, support for webapps will be added soon.
 
 ## Install
 
@@ -44,9 +46,9 @@ $ ./EasyDeploy
 
 ## Basic Usage 
 ```
-$ ./EasyDeploy init [--region][--key]
+$ EasyDeploy init [--region][--key] #Command used only once
 
-$ ./EasyDeploy deploy [--repo][--firewall]
+$ EasyDeploy deploy [--repo][--firewall]
 
 ```
 
