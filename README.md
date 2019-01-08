@@ -32,3 +32,8 @@ $ ./EasyDeploy
 $ ./EasyDeploy init [--region][--key]
 
 ```
+
+## Commands
+- Init : First command to run, only for one time to create a config with user details and creation of a ssh key for the instance.
+- Deploy : Creates one instance, installs necessary packages and clones your repo from github and deploys it in the server.
+- Destroy : Destroys the instance along with all the resources created.
