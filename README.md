@@ -1,5 +1,7 @@
 # EasyDeploy
 
+[![Build Status](https://travis-ci.org/LoneWolf38/EasyDeploy.svg?branch=dev)](https://travis-ci.org/LoneWolf38/EasyDeploy)
+
 A command line tool which helps you to deploy your website/webapps in AWS servers.
 
 ## Dependencies 
