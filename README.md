@@ -10,7 +10,7 @@ A command line tool which helps you to deploy your website/webapps in AWS server
 
 ## Dependencies 
 - Golang 
-- AWS account
+- AWS account (Access key and Secret Key needed)
 - Viper(github.com/spf13/viper)
 - Cobra(github.com/spf13/cobra)
 - AWS-SDK(github.com/aws/aws-sdk-go/...)
@@ -33,11 +33,11 @@ $ ./EasyDeploy
 
 ```
 
-## Basic Usage (Only One Command is now working)
+## Basic Usage 
 ```
 $ ./EasyDeploy init [--region][--key]
 
-$ ./EasyDeploy deploy [--repo]
+$ ./EasyDeploy deploy [--repo][--firewall]
 
 ```
 
