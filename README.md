@@ -1,7 +1,7 @@
 # EasyDeploy
 
 [![Build Status](https://travis-ci.org/LoneWolf38/EasyDeploy.svg?branch=dev)](https://travis-ci.org/LoneWolf38/EasyDeploy)
-(https://img.shields.io/badge/Language-go-blue.svg?style=flat-square)
+![](https://img.shields.io/badge/Golang-1.11-blue.svg?style=flat-square&logo=go)
 
 A command line tool which helps you to deploy your website/webapps in AWS servers.
 
