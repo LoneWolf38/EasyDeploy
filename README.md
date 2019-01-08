@@ -1,7 +1,7 @@
 # EasyDeploy
 
-[![Build Status](https://travis-ci.org/LoneWolf38/EasyDeploy.svg?branch=dev?style=flat-square)](https://travis-ci.org/LoneWolf38/EasyDeploy)
-[Language](https://img.shields.io/badge/Language-go-blue.svg?style=flat-square)
+[![Build Status](https://travis-ci.org/LoneWolf38/EasyDeploy.svg?branch=dev)](https://travis-ci.org/LoneWolf38/EasyDeploy)
+[!Language](https://img.shields.io/badge/Language-go-blue.svg?style=flat-square)
 
 A command line tool which helps you to deploy your website/webapps in AWS servers.
 
