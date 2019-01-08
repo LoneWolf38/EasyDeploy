@@ -6,9 +6,9 @@ import (
 		"github.com/spf13/cobra"
 		"github.com/LoneWolf38/EasyDeploy/provider"
 		"github.com/spf13/viper"
-		 // "github.com/aws/aws-sdk-go/aws"
-		 // "github.com/aws/aws-sdk-go/aws/session"
-		 // "github.com/aws/aws-sdk-go/service/ec2"
+		  // "github.com/aws/aws-sdk-go/aws"
+		  // "github.com/aws/aws-sdk-go/aws/session"
+		  // "github.com/aws/aws-sdk-go/service/ec2"
 		"github.com/LoneWolf38/EasyDeploy/provisioner"
 )
 
@@ -51,10 +51,10 @@ func ExecuteDeploy() {
 	updateConfig.Set("server.VpcId",vpcId)
 	keyName := updateConfig.GetString("user.keyname")
 	fmt.Println("Creating a Security Group....")
-	secGroup := CreateSecGroup(secName,secDes,svc)
+	secGroup := provider.CreateSecGroup(secName,secDes,svc)
 	updateConfig.Set("server.secGroup",secGroup)
 	fmt.Println("Creating a EC2 Instance...")
-	instanceId := CreateOneInstance(subnetId,secName,secGroup,instancetype,ami,keyName,svc)
+	instanceId := provider.CreateOneInstance(subnetId,secName,secGroup,instancetype,ami,keyName,svc)
 	fmt.Println("Server Created")
 	updateConfig.Set("server.InstanceId",instanceId)
 	updateConfig.WriteConfig()
@@ -66,29 +66,29 @@ func ExecuteDeploy() {
 	provisioner.StaticDeploy(githubUrl,CPath)
 }	
 
-func GetInstanceIP(svc *ec2.EC2) {
-	input := &ec2.DescribeInstancesInput{
-    Filters: []*ec2.Filter{
-        {
-            Name: aws.String("ip-address"),
-            Values: []*string{
-                aws.String("t2.micro"),
-            },
-        },
-    },
-}
-}
+// func GetInstanceIP(svc *ec2.EC2) {
+// 	input := &ec2.DescribeInstancesInput{
+//     Filters: []*ec2.Filter{
+//         {
+//             Name: aws.String("ip-address"),
+//             Values: []*string{
+//                 aws.String("t2.micro"),
+//             },
+//         },
+//     },
+// }
+// }
 
-func GetInstanceDNS(svc *ec2.EC2) {
-	input := &ec2.DescribeInstancesInput{
-    Filters: []*ec2.Filter{
-        {
-            Name: aws.String("dns-name"),
-            Values: []*string{
-                aws.String("t2.micro"),
-            },
-        },
-    },
-}
-}
+// func GetInstanceDNS(svc *ec2.EC2) {
+// 	input := &ec2.DescribeInstancesInput{
+//     Filters: []*ec2.Filter{
+//         {
+//             Name: aws.String("dns-name"),
+//             Values: []*string{
+//                 aws.String("t2.micro"),
+//             },
+//         },
+//     },
+// }
+// }
 
