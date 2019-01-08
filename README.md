@@ -51,3 +51,5 @@ $ ./EasyDeploy deploy [--repo]
 - Colored output for interactive user experience
 - Automatic updates of the repo in the server
 - Building of software(other than webapps) support to be added
+- More expalined help command
+- MageFile integration for manual building of EasyDeploy
