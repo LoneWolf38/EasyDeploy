@@ -20,7 +20,7 @@ var RootCmd = &cobra.Command{
 	Use: "EasyDeploy",
 	Short: "To show how your webapps looks in production stage",
 	Long: `EasyDeploy helps user to deploy their webapps/websites in a cloud environment`,
-	Version: "0.1",
+	Version: "1.0",
 	Run: easydeploy,
 }
 
