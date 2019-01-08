@@ -39,3 +39,12 @@ $ ./EasyDeploy deploy [--repo]
 - Init : First command to run, only for one time to create a config with user details and creation of a ssh key for the instance.
 - Deploy : Creates one instance, installs necessary packages and clones your repo from github and deploys it in the server.
 - Destroy : Destroys the instance along with all the resources created.
+
+## TODO
+- Complete all commands and flags
+- Add more resources of AWS
+- More configuration of the resources
+- Direct upload of files from user 
+- Support of GitLab and other private repositories
+- Available for all Operating Systems
+- Single executable with no dependencies
