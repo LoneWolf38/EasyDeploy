@@ -10,6 +10,8 @@ import (
 const PORT = "22"
 const USER = "ubuntu"
 const servDir = "/var/www/html"
+
+
 var startCommandList = []string {
 			"sudo apt-get update",
 			"sudo apt-get install -y git apache2", 

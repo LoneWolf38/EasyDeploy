@@ -3,6 +3,7 @@ package cmd
 import (
 		"fmt"
 		"os"
+		"time"
 		"github.com/spf13/cobra"
 		"github.com/LoneWolf38/EasyDeploy/provider"
 		"github.com/aws/aws-sdk-go/aws"
@@ -47,8 +48,6 @@ func ExecuteDeploy() {
 	fmt.Println("Setting up Environment variables....")
 	os.Setenv("AWS_ACCESS_KEY_ID",readConfig.GetString("aws.access_key"))
 	os.Setenv("AWS_SECRET_ACCESS_KEY",readConfig.GetString("aws.secret_key"))
-	fmt.Println(readConfig.GetString("aws.access_key"))
-	fmt.Println(readConfig.GetString("aws.secret_key"))
 	fmt.Println("Collecting Info...")
 	svc := provider.CreateEc2Session(Region)
 	vpcId := provider.VpcDetails(svc)
@@ -60,12 +59,10 @@ func ExecuteDeploy() {
 	secGroup := provider.CreateSecGroup(secName,secDes,svc)
 	readConfig.Set("server.secgroup",secGroup)
 	fmt.Println("Creating a EC2 Instance...")
-	//fmt.Println(subnetId+"\n"+secName+"\n"+secGroup+"\n"+instancetype+"\n"+ami+"\n"+keyName)
 	instanceId := provider.CreateOneInstance(subnetId,secName,secGroup,instancetype,ami,keyName,svc)
 	fmt.Println("Server Created")
 	readConfig.Set("server.InstanceId",instanceId)
 	readConfig.WriteConfig()
-
 	publicIp := GetInstanceIP(instanceId,svc)
 	PublicDnsName := GetInstanceDNS(instanceId,svc)
 	readConfig.Set("server.ip",publicIp)
@@ -74,7 +71,7 @@ func ExecuteDeploy() {
 	readConfig.WriteConfig()
 
 	fmt.Println("Installing Necessary Software...")
-
+	time.Sleep(5 * time.Second)
 	user := readConfig.GetString("user.github")
 	if len(repo)==0{
 		provisioner.StaticDeploy(URL,CPath)
