@@ -13,18 +13,17 @@ const servDir = "/var/www/html"
 
 
 var startCommandList = []string {
-			"sudo apt-get update",
-			"sudo apt-get install -y git apache2", 
-			"sudo systemctl enable apache2",
-			"sudo systemctl start apache2",
+			"sudo su -"
+			"apt-get update",
+			"apt-get install -y git apache2", 
+			"systemctl enable apache2",
+			"systemctl start apache2",
 		} 
 var apacheSystemCommand = "sudo systemctl restart apache2"
 
 var gitCloneCommand = "git clone "
 
-var sudoaccess = "sudo su -"
-
-func StaticDeploy(url, CPath string) {
+func StaticDeploy(url, CPath,projectName string) {
 	viper.SetConfigFile(CPath)
 	viper.SetConfigType("json")
 	viper.ReadInConfig()
@@ -37,8 +36,9 @@ func StaticDeploy(url, CPath string) {
 		User: USER,
 		Key: keyFile,
 	}
-	startCommandList = append(startCommandList,sudoaccess)
+	srvDir := fmt.Sprintf("/var/www/%s",projectName)
 	github := gitCloneCommand+url
+	startCommandList = append(startCommandList,	fmt.Sprintf("mkdir %s",srvDir))
  	startCommandList = append(startCommandList,github)
 
  	for _, cmd := range startCommandList {
