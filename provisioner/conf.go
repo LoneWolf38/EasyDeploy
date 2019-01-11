@@ -2,7 +2,7 @@ package provisioner
 
 import "fmt"
 
-func VhostConf(port,dns,projectName) string{
+func VhostConf(port,dns,projectName string) string{
 	return  fmt.Sprintf(`<VirtualHost *:%d>
    ServerAdmin webmaster@localhost
    ErrorLog ${APACHE_LOG_DIR}/error.log
