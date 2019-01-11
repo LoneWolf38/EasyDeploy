@@ -70,3 +70,6 @@ $ EasyDeploy deploy [--repo][--firewall]
 - Building of software(other than webapps) support to be added
 - More expalined help command
 - MageFile integration for manual building of EasyDeploy
+
+
+:star: if you like the project
