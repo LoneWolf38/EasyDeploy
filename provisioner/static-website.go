@@ -22,6 +22,8 @@ var apacheSystemCommand = "sudo systemctl restart apache2"
 
 var gitCloneCommand = "git clone "
 
+var sudoaccess = "sudo su -"
+
 func StaticDeploy(url, CPath string) {
 	viper.SetConfigFile(CPath)
 	viper.SetConfigType("json")
@@ -35,10 +37,9 @@ func StaticDeploy(url, CPath string) {
 		User: USER,
 		Key: keyFile,
 	}
-	github := "sudo "+gitCloneCommand+url+" "+servDir
+	startCommandList = append(startCommandList,sudoaccess)
+	github := gitCloneCommand+url
  	startCommandList = append(startCommandList,github)
-
- 	fmt.Println("Installing necessary softwares....")
 
  	for _, cmd := range startCommandList {
  		success, execError := SSHCommandBool(cmd,svr) 
@@ -47,4 +48,4 @@ func StaticDeploy(url, CPath string) {
  			os.Exit(1)
  		}
  	}
- } 
+}
