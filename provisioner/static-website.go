@@ -13,7 +13,7 @@ const servDir = "/var/www/html"
 
 
 var startCommandList = []string {
-			"sudo su -"
+			"sudo su -",
 			"apt-get update",
 			"apt-get install -y git apache2", 
 			"systemctl enable apache2",
