@@ -42,6 +42,7 @@ func GetAccessTokens(username,password string) {
 	newConfig.SetConfigFile(CPath)
 	newConfig.Set("aws.access_key",access_key)
 	newConfig.Set("aws.secret_key",secret_key)
+	newConfig.WriteConfig()
 }
 
 
