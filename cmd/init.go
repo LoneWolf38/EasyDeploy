@@ -22,8 +22,10 @@ var readConfig = viper.New()
 
 
 func StartInit(cmd *cobra.Command, args []string) {
+	
 	if _, err := os.Stat(CPath); os.IsNotExist(err) {
 		ConfigInit()
+		
 		CreateKeyPair()
 	} else {
 		fmt.Println("A Config File Found")
@@ -31,11 +33,25 @@ func StartInit(cmd *cobra.Command, args []string) {
 	}
 }
 
+func GetAccessTokens(username,password string) {
+	// API Request aws result access_key secret_key
+
+
+
+	//End api 
+	newConfig.SetConfigFile(CPath)
+	newConfig.Set("aws.access_key",access_key)
+	newConfig.Set("aws.secret_key",secret_key)
+}
+
 
 func ConfigInit() {
 		fmt.Println("Creating a New config .... ")
+		UserName := ValueInput("Username: ")
+		Password := ValueInput("Password: ")
+		GetAccessTokens(UserName, Password)
 		UserDetails("test/path", KeyName ,ValueInput("Github"))
-		AWScreds(ValueInput("AWS access key"), ValueInput("AWS secret key"),Region)	
+		//AWScreds(ValueInput("AWS access key"), ValueInput("AWS secret key"),Region)	
 
 		WriteServersDetails("Default faulty Ip","faluty dns","2321312","21323","2142142","asdsd")
 		fmt.Println("Config file created .easyconfig...")
