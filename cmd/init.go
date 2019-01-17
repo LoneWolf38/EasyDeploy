@@ -25,7 +25,6 @@ func StartInit(cmd *cobra.Command, args []string) {
 	
 	if _, err := os.Stat(CPath); os.IsNotExist(err) {
 		ConfigInit()
-		
 		CreateKeyPair()
 	} else {
 		fmt.Println("A Config File Found")
