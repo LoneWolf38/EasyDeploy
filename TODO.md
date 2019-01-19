@@ -1,6 +1,6 @@
 # TODO
 
-##Command And Flags
+## Command And Flags
 
 - [ ] Add delete command to remove all resources created
 - [ ] Add watch flag to do event driven task with the repository
