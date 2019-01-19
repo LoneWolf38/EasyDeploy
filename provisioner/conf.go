@@ -2,13 +2,13 @@ package provisioner
 
 import "fmt"
 
-func VhostConf(port,dns,projectName string) string{
+func VhostConf(port int,dns,projectName string) string{
 	return  fmt.Sprintf(`<VirtualHost *:%d>
-   ServerAdmin webmaster@localhost
-   ErrorLog ${APACHE_LOG_DIR}/error.log
-   CustomLog ${APACHE_LOG_DIR}/access.log combined
-   DocumentRoot /var/www/%s
-   ServerName %s
+   ServerAdmin webmaster@localhost\
+   ErrorLog ${APACHE_LOG_DIR}/error.log\
+   CustomLog ${APACHE_LOG_DIR}/access.log combined\
+   DocumentRoot /var/www/%s\
+   ServerName %s\
    </VirtualHost>`,port,projectName,dns)
 }
 
