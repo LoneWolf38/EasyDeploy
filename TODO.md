@@ -4,7 +4,11 @@
 
 - [ ] Add delete command to remove all resources created
 - [ ] Add watch flag to do event driven task with the repository
-
+- [ ] Add CodeLinting 
+- [ ] Better Function Naming 
+- [ ] User helpful error output
+- [ ] Addition of parallel execution if needed
+ 
 ## AWS resources
 
 - [ ] Add a Login Authentication Service for more automation

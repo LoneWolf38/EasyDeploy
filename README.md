@@ -57,6 +57,8 @@ $ EasyDeploy deploy [--repo][--firewall]
 - Deploy : Creates one instance, installs necessary packages and clones your repo from github and deploys it in the server.
 - Destroy : Destroys the instance along with all the resources created.
 
+## RoadMap:
 
+If you want to contribute to the project, Feel free to grab one of the items from [TODO.md](TODO.md) or suggest something else.
 
 :star: if you like the project
