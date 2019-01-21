@@ -1,6 +1,6 @@
 # TODO
 
-## Command And Flags
+## Code
 
 - [ ] Add delete command to remove all resources created
 - [ ] Add watch flag to do event driven task with the repository
@@ -8,6 +8,11 @@
 - [ ] Better Function Naming 
 - [ ] User helpful error output
 - [ ] Addition of parallel execution if needed
+- [ ] Comments for easy Readability
+- [ ] A EDFILE for user declared commands and application installation
+- [ ] Remote execution according to the EDFILE
+- [ ] A gh-pages for the project
+- [ ] Features like ansible for more than one servers
  
 ## AWS resources
 
