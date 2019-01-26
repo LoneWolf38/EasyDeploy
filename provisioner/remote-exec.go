@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"strings"
 	"golang.org/x/crypto/ssh"
 )
@@ -71,10 +70,6 @@ func SSHCommandBool(command string, sci ServerConnInfo) (bool, error) {
 
 		return false, err
 	}
-
-	session.Stdout = os.Stdout
-	session.Stderr = os.Stderr
-
 	err = session.Run(command)
 
 	session.Close()

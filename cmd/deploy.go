@@ -74,10 +74,10 @@ func ExecuteDeploy() {
 	time.Sleep(5 * time.Second)
 	user := readConfig.GetString("user.github")
 	if len(repo)==0{
-		provisioner.StaticDeploy(URL,CPath,repo)
+		provisioner.ServerSetup(URL,CPath,repo)
 	}else {
 	githubUrl := "https://github.com/"+user+"/"+repo+".git"
-	provisioner.StaticDeploy(githubUrl,CPath,repo)
+	provisioner.ServerSetup(githubUrl,CPath,repo)
 	}
 
 	fmt.Println("Site is Deployed at: "+publicIp)

@@ -32,24 +32,24 @@ func StartInit(cmd *cobra.Command, args []string) {
 	}
 }
 
-func GetAccessTokens(username,password string) {
-	// API Request aws result access_key secret_key
+// func GetAccessTokens(username,password,access_key,secret_key string) {
+// 	// API Request aws result access_key secret_key
 
 
 
-	//End api 
-	newConfig.SetConfigFile(CPath)
-	newConfig.Set("aws.access_key",access_key)
-	newConfig.Set("aws.secret_key",secret_key)
-	newConfig.WriteConfig()
-}
+// 	//End api 
+// 	newConfig.SetConfigFile(CPath)
+// 	newConfig.Set("aws.access_key",access_key)
+// 	newConfig.Set("aws.secret_key",secret_key)
+// 	newConfig.WriteConfig()
+// }
 
 
 func ConfigInit() {
 		fmt.Println("Creating a New config .... ")
-		UserName := ValueInput("Username: ")
-		Password := ValueInput("Password: ")
-		GetAccessTokens(UserName, Password)
+	//	UserName := ValueInput("Username: ")
+	//	Password := ValueInput("Password: ")
+		//GetAccessTokens(UserName, Password,access_key,secret_key)
 		UserDetails("test/path", KeyName ,ValueInput("Github"))
 		//AWScreds(ValueInput("AWS access key"), ValueInput("AWS secret key"),Region)	
 
