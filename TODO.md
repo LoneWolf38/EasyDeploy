@@ -13,6 +13,7 @@
 - [ ] Remote execution according to the EDFILE
 - [ ] A gh-pages for the project
 - [ ] Features like ansible for more than one servers
+- [ ] Use gocui for command line gui
  
 ## AWS resources
 
