@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+var svr ServerConnInfo
 func ServerConf(confPath string) ServerConnInfo {
 	confg := viper.New()
 	confg.SetConfigFile(confPath)
@@ -19,8 +20,8 @@ func ServerConf(confPath string) ServerConnInfo {
 	}
 }
 
-func ServerSetup(url,CPath,repo string) {
-	svr := ServerConf(CPath)
+func Serverinit(CPath string) {
+	svr = ServerConf(CPath)
 
 	commandList := []string{
 		"sudo apt update",
@@ -33,6 +34,7 @@ func ServerSetup(url,CPath,repo string) {
 		"sudo systemctl status docker",
 		"sudo usermod -aG docker ubuntu",
 		"sudo su - ubuntu",
+		"sudo mkdir /home/ubuntu/website",
 	}
 
 	for _, cmd := range commandList {
@@ -42,4 +44,20 @@ func ServerSetup(url,CPath,repo string) {
  			os.Exit(1)
 		}
   	}	
+}
+
+func Deploy(url,CPath,repo string) {
+	Serverinit(CPath)
+	gitClone := fmt.Sprintf("git clone %s /home/ubuntu/website",url)
+	success, execError := SSHCommandBool(gitClone,svr)
+	if success != true{
+		fmt.Println(execError)
+		os.Exit(1)
+	}
+	commandList := fmt.Sprintf("docker run --name static -v /home/ubuntu/website/:/usr/share/nginx/html -p 80:80 -d nginx:alpine")
+	success, execError = SSHCommandBool(commandList,svr)
+	if success != true{
+		fmt.Println(execError)
+		os.Exit(1)
+	}
 }
