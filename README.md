@@ -1,4 +1,4 @@
-# EasyDeploy [![Build Status](https://travis-ci.org/LoneWolf38/EasyDeploy.svg?branch=dev)](https://travis-ci.org/LoneWolf38/EasyDeploy)
+# EasyDeploy [![Build Status](https://travis-ci.org/LoneWolf38/EasyDeploy.svg?branch=master)](https://travis-ci.org/LoneWolf38/EasyDeploy)
 
 
 
