@@ -6,15 +6,10 @@ import (
 		"github.com/spf13/cobra"
 )
 
-var Region = "ap-south-1"
-var KeyName = "static-website"
-var ami = "ami-0d773a3b7bb2bb1c1"
-var instancetype = "t2.micro"
-var secName = "static-website"
-var secDes = "A security group for allowing ports 80 and 22 and 443"
-var repo = ""
 
 var CPath = os.Getenv("HOME")+"/.easyconfig.json"
+
+
 
 var RootCmd = &cobra.Command{
 	Use: "EasyDeploy",
@@ -25,7 +20,7 @@ var RootCmd = &cobra.Command{
 }
 
 func easydeploy(cmd *cobra.Command, args []string) {
-	if len(args) <1 {
+	if len(args) < 1 {
 		fmt.Println(cmd.UsageString())	
 	}
 }

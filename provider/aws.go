@@ -41,68 +41,68 @@ func CreateKey(keyname string, svc *ec2.EC2) string{
 	return string(*keypair.KeyMaterial)
 }
 
-func CreateSecGroup(secName,des string, svc *ec2.EC2) string{
+// func CreateSecGroup(secName,des string, svc *ec2.EC2) string{
 
-        fmt.Println("Creating a Security Group for Website Development")
-        vpcinfo, eerr := svc.DescribeVpcs(nil)
-        if eerr!= nil {
-            exitErrorf("Error in describing VPCs")
-        }
-        vpcId := aws.StringValue(vpcinfo.Vpcs[0].VpcId) 
-        secgr, err := svc.CreateSecurityGroup(&ec2.CreateSecurityGroupInput{
-            GroupName: aws.String(secName),
-            Description: aws.String(des),
-            VpcId: aws.String(vpcId),
-            })
-        if err != nil {
-            if aerr, ok := err.(awserr.Error); ok {
-            switch aerr.Code() {
-                case "InvalidVpcID.NotFound":
-                    exitErrorf("Unable to find VPC with ID %q.", vpcId)
-                case "InvalidGroup.Duplicate":
-                    exitErrorf("Security group %q already exists.", secName)
-                }
-            }
-        exitErrorf("Unable to create security group %q, %v", secName, err)
-        }
-    secGrId := aws.StringValue(secgr.GroupId)
+//         fmt.Println("Creating a Security Group for Website Development")
+//         vpcinfo, eerr := svc.DescribeVpcs(nil)
+//         if eerr!= nil {
+//             exitErrorf("Error in describing VPCs")
+//         }
+//         vpcId := aws.StringValue(vpcinfo.Vpcs[0].VpcId) 
+//         secgr, err := svc.CreateSecurityGroup(&ec2.CreateSecurityGroupInput{
+//             GroupName: aws.String(secName),
+//             Description: aws.String(des),
+//             VpcId: aws.String(vpcId),
+//             })
+//         if err != nil {
+//             if aerr, ok := err.(awserr.Error); ok {
+//             switch aerr.Code() {
+//                 case "InvalidVpcID.NotFound":
+//                     exitErrorf("Unable to find VPC with ID %q.", vpcId)
+//                 case "InvalidGroup.Duplicate":
+//                     exitErrorf("Security group %q already exists.", secName)
+//                 }
+//             }
+//         exitErrorf("Unable to create security group %q, %v", secName, err)
+//         }
+//     secGrId := aws.StringValue(secgr.GroupId)
     
-     _, gerr := svc.AuthorizeSecurityGroupIngress(&ec2.AuthorizeSecurityGroupIngressInput{
-        GroupId: aws.String(secGrId),
-        IpPermissions: []*ec2.IpPermission{
-            (&ec2.IpPermission{}).
-                SetIpProtocol("tcp").
-                SetFromPort(80).
-                SetToPort(80).
-                SetIpRanges([]*ec2.IpRange{
-                    {CidrIp: aws.String("0.0.0.0/0")},
-                }),
-            (&ec2.IpPermission{}).
-                SetIpProtocol("tcp").
-                SetFromPort(22).
-                SetToPort(22).
-                SetIpRanges([]*ec2.IpRange{
-                    (&ec2.IpRange{}).
-                        SetCidrIp("0.0.0.0/0"),
-                }),
-            (&ec2.IpPermission{}).
-                SetIpProtocol("tcp").
-                SetFromPort(443).
-                SetToPort(443).
-                SetIpRanges([]*ec2.IpRange{
-                    (&ec2.IpRange{}).
-                        SetCidrIp("0.0.0.0/0"),
-                }),
+//      _, gerr := svc.AuthorizeSecurityGroupIngress(&ec2.AuthorizeSecurityGroupIngressInput{
+//         GroupId: aws.String(secGrId),
+//         IpPermissions: []*ec2.IpPermission{
+//             (&ec2.IpPermission{}).
+//                 SetIpProtocol("tcp").
+//                 SetFromPort(80).
+//                 SetToPort(80).
+//                 SetIpRanges([]*ec2.IpRange{
+//                     {CidrIp: aws.String("0.0.0.0/0")},
+//                 }),
+//             (&ec2.IpPermission{}).
+//                 SetIpProtocol("tcp").
+//                 SetFromPort(22).
+//                 SetToPort(22).
+//                 SetIpRanges([]*ec2.IpRange{
+//                     (&ec2.IpRange{}).
+//                         SetCidrIp("0.0.0.0/0"),
+//                 }),
+//             (&ec2.IpPermission{}).
+//                 SetIpProtocol("tcp").
+//                 SetFromPort(443).
+//                 SetToPort(443).
+//                 SetIpRanges([]*ec2.IpRange{
+//                     (&ec2.IpRange{}).
+//                         SetCidrIp("0.0.0.0/0"),
+//                 }),
 
-        },
-    })
-    if gerr != nil {
-        exitErrorf("Unable to set security group %q ingress, %v", secName, err)
-    }
-    return secGrId
-}
+//         },
+//     })
+//     if gerr != nil {
+//         exitErrorf("Unable to set security group %q ingress, %v", secName, err)
+//     }
+//     return secGrId
+// }
 
-func exitErrorf(msg string, args ...interface{}) {
+func ExitErrorf(msg string, args ...interface{}) {
     fmt.Fprintf(os.Stderr, msg+"\n", args...)
     os.Exit(1)
 }

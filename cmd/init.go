@@ -110,6 +110,7 @@ func ValueInput(s string) string{
 }
 
 
+
 func CreateKeyPair() {
 	readConfig.SetConfigFile(CPath)
 	readConfig.ReadInConfig()

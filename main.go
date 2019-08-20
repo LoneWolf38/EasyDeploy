@@ -1,14 +1,13 @@
 package main
 
-
 import (
+	"fmt"
+
 	"github.com/LoneWolf38/EasyDeploy/cmd"
-  "fmt"
 )
 
-
 func main() {
-  fmt.Println("Executing Main Program")
+	fmt.Println("Executing Main Program")
 	cmd.RootCmd.Execute()
-	
+
 }

@@ -2,11 +2,11 @@
 
 ## Code
 
-- [ ] Add delete command to remove all resources created
+- [ ] Add delete command to remove all resources created with context
 - [ ] Add watch flag to do event driven task with the repository
 - [ ] Add CodeLinting 
 - [ ] Better Function Naming 
-- [ ] User helpful error output
+- [ ] User helpful error output and graceful exit
 - [ ] Addition of parallel execution if needed
 - [ ] Comments for easy Readability
 - [ ] A EDFILE for user declared commands and application installation
@@ -14,7 +14,8 @@
 - [ ] A gh-pages for the project
 - [ ] Features like ansible for more than one servers
 - [ ] Use gocui for command line gui
- 
+- [ ] Use BoltDB or similar for removing the env var usage and to store regular used deployed code
+
 ## AWS resources
 
 - [ ] Add a Login Authentication Service for more automation
@@ -45,11 +46,12 @@
 - [ ] Ruby Webapps Support
 - [ ] NodeJS Webapps Support
 - [ ] Php Webapps Support
+- [ ] Go webapps Support
 
 ## Uploading Source Code
 
 - [ ] Support for GitLab, BitBucket
-- [ ] Event Driven Building or updating source code
+- [ ] Event Driven Building or updating source code // WebHooks
 - [ ] Support for uploading files from local storage
 
 ## Releases
